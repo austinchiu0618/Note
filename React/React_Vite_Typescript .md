@@ -5,18 +5,10 @@
 ## 初始化项目
 
 ```
-npm init @vitejs/app project-name --template react-ts
+npm create vite@latest project-name --template react-ts
 ```
 
 ## 安装项目
-
-### 基本
-
--  react & react-dom（基础核心）
-
-```
-npm install --save react react-dom
-```
 
 ### 路由
 
