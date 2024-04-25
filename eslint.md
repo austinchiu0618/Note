@@ -1,14 +1,14 @@
 # eslint
-
-```
-npm install eslint --save-dev
-yarn add -D eslint
-```
-
-```
-npm run eslint --init
-yarn eslint --init
- ```
+- Npm
+  ```
+  npm install eslint --save-dev
+  yarn add -D eslint
+  ```
+- Yarn
+  ```
+  npm run eslint --init
+  yarn eslint --init
+  ```
 
 1. 你想使用 ESLint 來做什麼？ 
   <br>選擇第二個：檢查語法、找出問題和強制執行編碼風格。
@@ -31,7 +31,6 @@ yarn eslint --init
 &emsp;
 
 # .eslintrc 配置
-
 rules中
 - 第一個值是「錯誤層級（error level）」：
   - off 或 0 - 關閉規則
@@ -101,9 +100,7 @@ module.exports = {
 
 &emsp;
 # eslint相關套件
-
 ## Husky
-
 ```
 npm install husky --save-dev
 ```
@@ -135,16 +132,13 @@ module.exports ={
   ```
 
 ## lint-staged
-
 ```
 npm install lint-staged --save-dev
 ```
 
 &emsp;
 # 编辑器配置
-
 ## EditorConfig
-
 项目根目录新建一个配置文件：.editorconfig
 
 ```
@@ -159,7 +153,6 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 ```
 ## VS Code setting
-
 在 vscode 编辑器中，Mac 快捷键 command + , 来快速打开配置项，切换到 workspace 模块，并点击右上角的 open settings json 按钮，配置如下信息：
 
 ```json
@@ -184,11 +177,9 @@ insert_final_newline = true
 ```
 
 &emsp;
-
 # ESLint + Prettier
-
-1.  .eslintignore：配置 ESLint 忽略文件
-2.  .eslintrc：ESLint 编码规则配置
+1. .eslintignore：配置 ESLint 忽略文件
+2. .eslintrc：ESLint 编码规则配置
    
 > .eslintrc :: react 版本的配置
 ```js
@@ -221,58 +212,57 @@ insert_final_newline = true
 &emsp;
 # 程式碼中備註
 ## 整支檔案隱藏警告
-
 放在檔案開頭：
 
-忽略所有規則​
-```js
-/* eslint-disable */ // 在該檔案關閉 ESLint
-```
+- 忽略所有規則​
+  ```js
+  /* eslint-disable */ // 在該檔案關閉 ESLint
+  ```
 
-忽略特定規則
-```js
-/* eslint-disable [rule-name] */
-/* eslint-disable no-alert, no-console
-```
-or
-```js
-/* eslint no-unused-vars: 0 */
-/* eslint no-unused-vars: "error" */
-```
+- 忽略特定規則
+  ```js
+  /* eslint-disable [rule-name] */
+  /* eslint-disable no-alert, no-console
+  ```
+  or
+  ```js
+  /* eslint no-unused-vars: 0 */
+  /* eslint no-unused-vars: "error" */
+  ```
 
 ## 特定行數隱藏警告
 
 ### 忽略單行
 
-忽略所有規則​
-```js
-file = "I know what I am doing"; // eslint-disable-line
+- 忽略所有規則​
+  ```js
+  file = "I know what I am doing"; // eslint-disable-line
 
-// eslint-disable-next-line
-alert("foo");
-```
+  // eslint-disable-next-line
+  alert("foo");
+  ```
 
-忽略特定規則
-```js
-alert("foo"); // eslint-disable-line no-alert, quotes, semi
+- 忽略特定規則
+  ```js
+  alert("foo"); // eslint-disable-line no-alert, quotes, semi
 
-// eslint-disable-next-line no-alert
-alert("foo");
-```
+  // eslint-disable-next-line no-alert
+  alert("foo");
+  ```
 
 ### 忽略多行
 
-忽略所有規則​
-```js
-/* eslint-disable */
-alert("foo");
-/* eslint-enable */
-```
+- 忽略所有規則​
+  ```js
+  /* eslint-disable */
+  alert("foo");
+  /* eslint-enable */
+  ```
 
-忽略特定規則
-```js
-/* eslint-disable no-alert, no-console */
-alert("foo");
-console.log("bar");
-/* eslint-enable no-alert, no-console */
-```
+- 忽略特定規則
+  ```js
+  /* eslint-disable no-alert, no-console */
+  alert("foo");
+  console.log("bar");
+  /* eslint-enable no-alert, no-console */
+  ```

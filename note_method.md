@@ -3,8 +3,6 @@
   ```js
   const n = 716298462;
   const formatted = n.toLocaleString('en-US');
-
-  console.log(formatted)
   ```
 
 - 方法二
@@ -12,7 +10,6 @@
   const n = 716298462;
   const numberFormatter = Intl.NumberFormat ('en-US');
   const formatted = numberFormatter.format(n);
-  console.log(formatted)
   ```
 
 - 方法三

@@ -26,7 +26,7 @@ AspectRatio(
 - Center:讓組件置中
  ```dart
 Center(
-    child: Container(color: Colors.green)
+  child: Container(color: Colors.green)
 )
 ```
 
@@ -41,10 +41,10 @@ ConstrainedBox(
 - Container:簡單的容器組件，可以在內部放任何東西並排版，類似HTML的<div>
  ```dart
 Container(
-    margin: const EdgeInsets.all(10.0),
-    color: Colors.amber[600],
-    width: 48.0,
-    height: 48.0,
+  margin: const EdgeInsets.all(10.0),
+  color: Colors.amber[600],
+  width: 48.0,
+  height: 48.0,
 )
 ```
 

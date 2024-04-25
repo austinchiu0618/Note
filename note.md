@@ -75,3 +75,25 @@ module.exports = {
 ```js
 /* eslint-env node */
 ```
+
+## Input Upload File
+Input Event "change"
+```js
+function onChange (e){
+  const file = event.target.files[0]
+
+  // URL.createObjectURL
+  const url = URL.createObjectURL(file);
+  // url = blob:http...
+
+  // 使用FileReader readAsDataURL方法來讀取圖片
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = function (e: ProgressEvent<FileReader>) {
+      const txt = e.target?.result
+      // <img src=txt />
+    }
+    reader.readAsDataURL(file)
+  }
+}
+```
