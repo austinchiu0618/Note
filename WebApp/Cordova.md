@@ -25,20 +25,54 @@ cordova create src-cordova com.first.app FirstApp
 ## Add Platforms
 
 再來的指令要在 cordova 的路徑下執行
-```shell=
+```shell
 cd src-cordova
 ```
 
 加入 ios android 
-```shell=
+```shell
 cordova platform add ios
 cordova platform add android
 ```
 
-## 檢查打包前所需要的環境
-```shell=
+## 安裝 android 環境
+Android Studio:
+依照 Cordova 版本安裝 Android SDK 
+1. SDK Platform
+2. Android SDK Build-Tools
+3. SDK Command-line Tools (latest)
+4. Android SDK Platform-Tools
+5. Android Emulator
+
+`./zshrc`
+```zsh
+export ANDROID_HOME=~/Library/Android/sdk
+export ANDROID_SDK_ROOT=~/Library/Android/sdk
+
+export PATH=$PATH:$ANDROID_HOME/platform-tools/
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin/
+export PATH=$PATH:$ANDROID_HOME/build-tools/
+export PATH=$PATH:$ANDROID_HOME/emulator/
+```  
+
+## 打包前所需要的環境檢查
+```shell
 cordova requirements
 ```
+
+執行後結果，如下：
+(cordova-android@13.0.0 打包成功)
+```shell
+Requirements check results for android:
+Java JDK: installed 17.0.14
+Android SDK: installed true
+Android target: installed android-34,android-33,android-30
+Gradle: installed /opt/homebrew/Cellar/gradle/8.13/bin/gradle
+java version "17.0.14" 2025-01-21 LTS
+Java(TM) SE Runtime Environment (build 17.0.14+8-LTS-191)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.14+8-LTS-191, mixed mode, sharing)
+```
+
 - [Android platform requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
 - [iOS platform requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html#requirements-and-support)
 
@@ -47,12 +81,12 @@ cordova requirements
 ### 打包 debug 模式（自動簽名爲 debug）
 
 - 打包所有平臺
-```shell=
+```
 cordova build
 ```
 
 - 也可以指定打包的平臺
-```shell=
+```
 cordova build [ios|android]
 ```
 
@@ -96,11 +130,7 @@ cordova run android --release -- --keystore=../my-release-key.keystore --storePa
 ```shell=
 cordova run android --release
 ```
-
-
-
 ---
-
 
 ## 簽名
 
@@ -119,7 +149,7 @@ cordova run android --release
 :::
 
 ### 使用 keytool 工具生成數字證書
-```shell=
+```shell
 keytool -genkey -v -keystore xxx.keystore -alias xxx.keystore -keyalg RSA -validity 20000
 ```
 說明：
@@ -131,7 +161,7 @@ keytool -genkey -v -keystore xxx.keystore -alias xxx.keystore -keyalg RSA -valid
 - -validity： 20000 表示該數字證書的有效期為20000天，意味著20000天之后該證書將失效
 
 ### 使用 jarsigner 簽名（只能簽 v1 = =）
-```shell=
+```shell
 jarsigner -verbose -keystore xxx.keystore -signedjar app_signed.apk app.apk xxx.keystore
 ```
 說明
@@ -141,7 +171,7 @@ jarsigner -verbose -keystore xxx.keystore -signedjar app_signed.apk app.apk xxx.
 - xxx.keystore： alias 別名
 
 #### 查看簽名訊息
-```shell=
+```shell
 jarsigner -verify -verbose -certs [檔案名]
 ```
 
@@ -160,12 +190,12 @@ apksigner sign --ks ~/xxx.keystore --ks-key-alias xxx.keystore --out app-release
 :::
 
 #### 查看簽名訊息
-```shell=
+```shell
 apksigner verify --print-certs [檔案名]
 ```
 
 ### 使用 zipalign 壓縮已簽名的 apk
-```shell=
+```shell
  zipalign -v 4 app_signed.apk app_signed_aligned.apk
 ```
 說明
@@ -178,4 +208,12 @@ apksigner verify --print-certs [檔案名]
 
 
 ## 更新Cordova時遇到問題
-###
+### Andorid
+
+### IOS
+- 出現白畫面
+
+```xml
+<preference name="scheme" value="app" />
+<preference name="hostname" value="localhost" />
+```

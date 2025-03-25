@@ -1,19 +1,24 @@
-- 用戶將網頁收藏為書並加到主畫面時，可以令最下的選單消失，令網頁變為全屏幕，在 head 加入以下設定:
+- 自定義應用名稱
+```html
+<meta name="application-name" content="我的APP">
+```
+
+- 用户將網頁收藏為書並加到主畫面時，可以令最下的選單消失，令網頁變為全屏幕，在 head 加入以下設定:
 ```html
 <meta name="apple-mobile-web-app-capable" content="yes" />
 ```
 
-- 用戶將網頁收藏為書並加到主畫面時，可加入自定義的 icon，在 head 加入以下設定:
+- 用户將網頁收藏為書並加到主畫面時，可加入自定義的 icon，在 head 加入以下設定:
 ```html
 <link rel="apple-touch-icon" href="/custom_icon.png"/>
 ```
 
-- 用戶將網頁收藏為書並加到主畫面時，可以設定在載入網頁時的等待畫面，在 head 加入以下設定:
+- 用户將網頁收藏為書並加到主畫面時，可以設定在載入網頁時的等待畫面，在 head 加入以下設定:
 ```html
 <link rel="apple-touch-startup-image" href="/startup.png">
 ```
 
-用戶將網頁收藏為書並加到主畫面時，可以將最上的狀態列設定為其他顏色(發覺只能設定為黑色)，在 head 加入以下設定:
+用户將網頁收藏為書並加到主畫面時，可以將最上的狀態列設定為其他顏色(發覺只能設定為黑色)，在 head 加入以下設定:
 ```html
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 ```
@@ -27,7 +32,7 @@ window.onload = function(){
 }
 ```
 
-防止用戶拉動網頁，可加入以下的 Javascript:
+防止用户拉動網頁，可加入以下的 Javascript:
 ```js
 document.addEventListener("touchmove", function(event){
     event.preventDefault();

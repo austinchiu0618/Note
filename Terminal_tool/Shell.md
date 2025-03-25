@@ -1,3 +1,12 @@
+### 常用指令
+```zsh
+# 重整 終端機
+exec $SHELL
+
+source ~/.zshrc
+source ~/.zprofile
+```
+
 ## set
 本文取至 https://blog.csdn.net/cao0507/article/details/82697451
 ```

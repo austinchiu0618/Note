@@ -14,39 +14,6 @@
 非同步 請求資料後使用window.open 會有部分瀏覽器會出於安全原因阻止了window.open開啟新頁面。 
 解決辦法：修改 非同步 為 同步 方法
 
-## vant class
-"truncate" 內建文字超出範圍後呈現'...'
-
-## vant '@vant/touch-emulator' 與 videoJs衝突
-加上 'data-no-touch-simulate'
-```html
-<video data-no-touch-simulate></video>
-```
-
-## 動態使用圖片
-for vite vue
-```js
-let path = 'xxx.png'
-new URL(`../assets/${path}`, import.meta.url).href
-```
-或是直接import圖片
-```js
-import xxx from '@/assets/xxx.png'
-```
-
-## vite .env
-```js
-import.meta.env.*
-```
-env.d.ts
-```ts
-/// <reference types="vite/client" />
-interface ImportMetaEnv {
-  readonly VITE_BASE_URL: string;
-  // ...
-}
-```
-
 ## IOS
 env() constant()
 safe-area-inset-left：安全区域距离左边边界的距离
