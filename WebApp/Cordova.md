@@ -1,13 +1,13 @@
 # Cordova
 
 ## Cordova CLI
-```shell=
+```shell
 npm install -g cordova
 ```
 
 ## Create the App
 在你的專案下，創建 cordova 
-```shell=
+```shell
 cordova create [path] [id] [name]
 
 # example
@@ -36,15 +36,22 @@ cordova platform add android
 ```
 
 ## 安裝 android 環境
-Android Studio:
-依照 Cordova 版本安裝 Android SDK 
-1. SDK Platform
-2. Android SDK Build-Tools
-3. SDK Command-line Tools (latest)
-4. Android SDK Platform-Tools
-5. Android Emulator
+[Android platform requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#android-api-level-support)
 
-`./zshrc`
+[iOS platform requirements](https://cordova.apache.org/docs/en/12.x-2025.01/guide/platforms/ios/index.html#requirements-and-support)
+
+- JDK: (對應 Cordova 版本)
+
+- Gradle: (對應 Cordova 版本)
+
+- Android Studio:
+  1. SDK Platform (對應Cordova 版本)
+  2. Android SDK Build-Tools （對應 SDK Platform 安裝）
+  3. SDK Command-line Tools (latest)
+  4. Android SDK Platform-Tools
+  5. Android Emulator
+
+`./zshrc`, `./zprofile`
 ```zsh
 export ANDROID_HOME=~/Library/Android/sdk
 export ANDROID_SDK_ROOT=~/Library/Android/sdk
@@ -55,14 +62,14 @@ export PATH=$PATH:$ANDROID_HOME/build-tools/
 export PATH=$PATH:$ANDROID_HOME/emulator/
 ```  
 
-## 打包前所需要的環境檢查
+## 檢查打包環境
 ```shell
 cordova requirements
 ```
 
 執行後結果，如下：
-(cordova-android@13.0.0 打包成功)
 ```shell
+# cordova-android@13.0.0 打包成功
 Requirements check results for android:
 Java JDK: installed 17.0.14
 Android SDK: installed true
@@ -72,9 +79,6 @@ java version "17.0.14" 2025-01-21 LTS
 Java(TM) SE Runtime Environment (build 17.0.14+8-LTS-191)
 Java HotSpot(TM) 64-Bit Server VM (build 17.0.14+8-LTS-191, mixed mode, sharing)
 ```
-
-- [Android platform requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
-- [iOS platform requirements](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html#requirements-and-support)
 
 ## Build the App
 
@@ -91,14 +95,14 @@ cordova build [ios|android]
 ```
 
 ### Android 打包 release 模式 (unsigned)
-```shell=
+```shell
 cordova build [ios|android] --release -- --packageType=apk
 ```
 
 ### Android 打包 release 模式 ([signed](https://cordova.apache.org/docs/en/11.x/guide/platforms/android/index.html#signing-an-app))
 
 -  透過指令帶參數
-```shell=
+```shell
 cordova run android --release -- --keystore=../my-release-key.keystore --storePassword=password --alias=alias_name --password=password --packageType=bundle
 ```
 - 使用 build.json
@@ -127,7 +131,7 @@ cordova run android --release -- --keystore=../my-release-key.keystore --storePa
 }
 ```
 使用指令打包
-```shell=
+```shell
 cordova run android --release
 ```
 ---
@@ -176,7 +180,7 @@ jarsigner -verify -verbose -certs [檔案名]
 ```
 
 ### 使用 apksigner 簽名（簽 v1, v2, v3, v4）
-```shell=
+```shell
 apksigner sign --ks ~/xxx.keystore --ks-key-alias xxx.keystore --out app-release-signed.apk app-release-unsigned.apk
 ```
 說明
@@ -207,12 +211,33 @@ apksigner verify --print-certs [檔案名]
 [Android程序簽名詳解、打包、發布到Google play步驟](http://www.rocidea.com/one?id=23118)
 
 
-## 更新Cordova時遇到問題
+## Cordova時遇到問題
 ### Andorid
+- 打包問題 General error during conversion: Unsupported class file major version 61
+
+    ans: JDK 版本太高
+
+- 執行 build-android.sh 注意事項
+
+    ans: 
+  1. 此時執行環境是依照 `./zprofile`（MAC_mini_M4), 要注意 JDK, Gradle 版本, 可以在檔案中的 `cd src-cordova` 後中加入程式去檢查
+    ```zsh
+    echo $JAVA_HOME
+    java -version
+    gradle -v
+    cordova requirements
+    ```
+  2. 依照打包環境調整指定版本
+    ```zsh
+    cordova platform add android@XX
+    ```
+   或是直接
+    ```zsh
+    cordova platform add android
+    ``` 
 
 ### IOS
 - 出現白畫面
-
 ```xml
 <preference name="scheme" value="app" />
 <preference name="hostname" value="localhost" />

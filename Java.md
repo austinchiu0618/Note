@@ -19,4 +19,5 @@ jenv global oracle64-17.0.2
 
 # 啟用匯出功能，允許 jEnv 自動設定 JAVA_HOME
 jenv enable-plugin export
+echo $JAVA_HOME
 ```

@@ -1,0 +1,12 @@
+@followRedirect = true
+POST https://partner.mcpqa.xyz/v1/auth/signup-game
+X-Site-Code: mocp
+X-Mcp-Signature: mVND/SXB8xNhn3X1nuN9Gurn6HeY4dLKukRtXL6KGZU=
+Content-Type: application/json
+
+{
+    "agent": "mocpdefault",
+    "username": "user203",
+    "nickname": "user203",
+    "game_code": "lobby"
+}
