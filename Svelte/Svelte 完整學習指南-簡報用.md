@@ -554,41 +554,6 @@ svelte-app/
 </button>
 ```
 
-### 動態 Snippet
-```svelte
-<script>
-	let products = $state([
-		{ id: 1, name: '筆記型電腦', price: 30000 },
-		{ id: 2, name: '滑鼠', price: 800 }
-	]);
-</script>
-
-{#snippet productCard(product)}
-	<div>
-		<h3>{product.name}</h3>
-		<p>價格: NT$ {product.price}</p>
-	</div>
-{/snippet}
-
-{#snippet productList(product, index)}
-	<li>{index + 1}. {product.name} - NT$ {product.price}</li>
-{/snippet}
-
-<!-- 卡片視圖 -->
-{#each products as product}
-	{@render productCard(product)}
-{/each}
-
-<!-- 列表視圖 -->
-<ul>
-	{#each products as product, index}
-		{@render productList(product, index)}
-	{/each}
-</ul>
-```
-
----
-
 ## 7. 調試與開發工具
 
 ### HTML 渲染與調試
@@ -646,7 +611,7 @@ svelte-app/
 ---
 
 ## 8. Actions 使用
-`Actions 是在元素掛載時調用的函數。它們通過 `use:` 指令添加，通常會使用 `$effect` 以便在元素卸載時重置任何狀態：
+Actions 是在元素掛載時調用的函數。它們通過 `use:` 指令添加，通常會使用 `$effect` 以便在元素卸載時重置任何狀態：
 
 ### 基本 Action
 ```svelte
@@ -736,50 +701,6 @@ action 只會調用一次（但在服務端渲染期間不會調用）—— 即
 {/if}
 ```
 
-### 動畫指令
-```svelte
-<script>
-	import { flip } from 'svelte/animate';
-	import { fade } from 'svelte/transition';
-	
-	let items = $state([
-		{ id: 1, name: '項目 1' },
-		{ id: 2, name: '項目 2' },
-		{ id: 3, name: '項目 3' }
-	]);
-	
-	function shuffle() {
-		items = items.sort(() => Math.random() - 0.5);
-	}
-	
-	function addItem() {
-		items.push({
-			id: Date.now(),
-			name: `項目 ${items.length + 1}`
-		});
-	}
-	
-	function removeItem(id) {
-		items = items.filter(item => item.id !== id);
-	}
-</script>
-
-<button onclick={shuffle}>打亂順序</button>
-<button onclick={addItem}>新增項目</button>
-
-{#each items as item (item.id)}
-	<div 
-		animate:flip={{ duration: 300 }}
-		transition:fade
-	>
-		{item.name}
-		<button onclick={() => removeItem(item.id)}>移除</button>
-	</div>
-{/each}
-```
-
----
-
 ## 10. 樣式與 CSS
 
 ### 基本樣式
@@ -800,7 +721,7 @@ action 只會調用一次（但在服務端渲染期間不會調用）—— 即
 	動態樣式
 </p>
 
-<p style:font-size={myColor} style:color={color}>...</p>
+<p style:font-size={fontSize} style:color={color}>...</p>
 
 <!-- 條件 class -->
 <button 
@@ -831,52 +752,17 @@ action 只會調用一次（但在服務端渲染期間不會調用）—— 即
 ## 11. 狀態管理進階
 
 ### 使用 Runes 進行狀態管理
-```svelte
-<script>
-	// 應用層級狀態
-	let appState = $state({
+```js
+	// stores.js
+	export let appState = $state({
 		user: null,
 		theme: 'light',
 		notifications: []
 	});
 	
-	// 衍生狀態
-	let isLoggedIn = $derived(appState.user !== null);
-	let unreadCount = $derived(
+	export let unreadCount = $derived(
 		appState.notifications.filter(n => !n.read).length
 	);
-	
-	// 狀態操作
-	function login(userData) {
-		appState.user = userData;
-	}
-	
-	function addNotification(message) {
-		appState.notifications.push({
-			id: Date.now(),
-			message,
-			read: false
-		});
-	}
-	
-	function toggleTheme() {
-		appState.theme = appState.theme === 'light' ? 'dark' : 'light';
-	}
-</script>
-
-<div class="app" class:dark={appState.theme === 'dark'}>
-	{#if isLoggedIn}
-		<p>歡迎, {appState.user.name}!</p>
-		<p>未讀通知: {unreadCount}</p>
-	{:else}
-		<button onclick={() => login({ name: '用户' })}>登入</button>
-	{/if}
-	
-	<button onclick={toggleTheme}>切換主題</button>
-	<button onclick={() => addNotification('新通知')}>
-		新增通知
-	</button>
-</div>
 ```
 
 ### 傳統 Stores（仍可使用）
@@ -983,7 +869,8 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	
 	setContext('app', appConfig);
 </script>
-
+```
+```svelte
 <!-- 中間組件 -->
 <script>
 	import { getContext, setContext } from 'svelte';
@@ -996,7 +883,8 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	
 	setContext('user', userPrefs);
 </script>
-
+```
+```svelte
 <!-- 深層子組件 -->
 <script>
 	import { getContext } from 'svelte';
@@ -1012,6 +900,14 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 ---
 
 ## 13. 特殊元素
+
+### `<svelte:window>`
+```svelte
+<svelte:head>
+  <title>Hello world!</title>
+  <meta name="description" content="This is where the description goes for SEO" />
+</svelte:head>
+```
 
 ### `<svelte:window>`
 ```svelte
@@ -1230,7 +1126,7 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 </script>
 
 <Button 
-	onclick={handleClick}
+	{handleClick}
 	on:customClick={handleCustomClick}
 >
 	點我
@@ -1240,12 +1136,12 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 ```svelte
 <!-- Button.svelte -->
 <script>
-	let { onclick, children } = $props();
+	let { handleClick, children } = $props();
 	
 	// 自定義事件派發
-	function handleClick(event) {
+	function onclick(event) {
 		// Svelte 5
-		onclick?.(event);
+		handleClick?.(event);
 		
 		// Svelte 4
 		// 派發自定義事件到父組件
@@ -1255,7 +1151,7 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	}
 </script>
 
-<button onclick={handleClick}>
+<button onclick={onclick}>
 	{@render children?.()}
 </button>
 ```
@@ -1265,22 +1161,29 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 <!-- Card.svelte -->
 <script>
   let { header, children, footer } = $props();
+
+	let title = 'Slot 插槽'
 </script>
 
 <div class="card">
-	<header>		
+	<header>	
+		<!-- Svelte 5 -->	
 		<slot name="header" />
+		
+		<!-- Svelte 4 -->
 		{@render header?.()}
 	</header>
 	
 	<main>
 		<slot />
+
 		{@render children?.()}
 	</main>
 	
 	<footer>
-		<slot name="footer" />
-		{@render footer?.() || '預設頁腳'}
+		<slot name="footer" let:title />
+
+		{@render footer?.(title)}
 	</footer>
 </div>
 
@@ -1290,14 +1193,20 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 </script>
 
 <Card title="自定義卡片">
+	<!-- Svelte 4 -->
+	<p slot="header">我是標題</p>
+	<p>主要內容區域</p>
+	<p slot="footer" let:title>自定義頁腳 - {title}</p>
+
+	<!-- Svelte 5 -->
 	{#snippet header()}
 		<p>額外的標題內容</p>
 	{/snippet}
 	
 	<p>主要內容區域</p>
 	
-	{#snippet footer(data)}
-		<p>自定義頁腳 - {data.timestamp.toLocaleString()}</p>
+	{#snippet footer(title)}
+		<p>自定義頁腳 - {title}</p>
 	{/snippet}
 </Card>
 ```
@@ -1346,100 +1255,6 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	<button onclick={increment}>+{step}</button>
 </div>
 ```
-
-### 複雜組件通訊
-```svelte
-<!-- 父組件 -->
-<script>
-	import UserList from './UserList.svelte';
-	import UserDetail from './UserDetail.svelte';
-	
-	let users = $state([
-		{ id: 1, name: 'Alice', email: 'alice@example.com' },
-		{ id: 2, name: 'Bob', email: 'bob@example.com' }
-	]);
-	
-	let selectedUser = $state(null);
-	
-	function handleUserSelect(user) {
-		selectedUser = user;
-	}
-	
-	function handleUserUpdate(updatedUser) {
-		const index = users.findIndex(u => u.id === updatedUser.id);
-		if (index !== -1) {
-			users[index] = updatedUser;
-		}
-	}
-	
-	function handleUserDelete(userId) {
-		users = users.filter(u => u.id !== userId);
-		if (selectedUser?.id === userId) {
-			selectedUser = null;
-		}
-	}
-</script>
-
-<div class="app-layout">
-	<UserList 
-		{users} 
-		{selectedUser}
-		onSelect={handleUserSelect}
-		onDelete={handleUserDelete}
-	/>
-	
-	{#if selectedUser}
-		<UserDetail 
-			user={selectedUser}
-			onUpdate={handleUserUpdate}
-		/>
-	{/if}
-</div>
-
-<!-- UserList.svelte -->
-<script>
-	let { users, selectedUser, onSelect, onDelete } = $props();
-</script>
-
-<div class="user-list">
-	<h3>用户列表</h3>
-	{#each users as user}
-		<div 
-			class="user-item"
-			class:selected={selectedUser?.id === user.id}
-			onclick={() => onSelect(user)}
-		>
-			<span>{user.name}</span>
-			<button onclick|stopPropagation={() => onDelete(user.id)}>
-				刪除
-			</button>
-		</div>
-	{/each}
-</div>
-
-<!-- UserDetail.svelte -->
-<script>
-	let { user, onUpdate } = $props();
-	let editedUser = $state({ ...user });
-	
-	$effect(() => {
-		editedUser = { ...user };
-	});
-	
-	function save() {
-		onUpdate(editedUser);
-	}
-</script>
-
-<div class="user-detail">
-	<h3>用户詳情</h3>
-	<input bind:value={editedUser.name} placeholder="姓名" />
-	<input bind:value={editedUser.email} placeholder="信箱" />
-	<button onclick={save}>保存</button>
-</div>
-```
-
----
 
 ## 16. 遷移指南
 

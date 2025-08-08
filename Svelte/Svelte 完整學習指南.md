@@ -1019,6 +1019,15 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 
 ### `<svelte:window>`
 ```svelte
+<svelte:head>
+  <title>Hello world!</title>
+  <meta name="description" content="This is where the description goes for SEO" />
+</svelte:head>
+```
+
+
+### `<svelte:window>`
+```svelte
 <script>
 	let scrollY = $state(0);
 	let innerWidth = $state(0);
@@ -1269,6 +1278,8 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 <!-- Card.svelte -->
 <script>
   let { header, children, footer } = $props();
+
+	let title = 'Slot 插槽'
 </script>
 
 <div class="card">
@@ -1283,8 +1294,8 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	</main>
 	
 	<footer>
-		<slot name="footer" />
-		{@render footer?.() || '預設頁腳'}
+		<slot name="footer" item={title} />
+		{@render footer?.(title)}
 	</footer>
 </div>
 
@@ -1300,8 +1311,8 @@ Context 是 Svelte 提供的一種機制，讓你可以在組件樹中向下傳�
 	
 	<p>主要內容區域</p>
 	
-	{#snippet footer(data)}
-		<p>自定義頁腳 - {data.timestamp.toLocaleString()}</p>
+	{#snippet footer(title)}
+		<p>自定義頁腳 - {title}</p>
 	{/snippet}
 </Card>
 ```
