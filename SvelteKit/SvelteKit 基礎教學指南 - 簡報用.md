@@ -298,6 +298,8 @@ src/routes/
 ### 頁面載入函數
 
 **基本載入：`+page.js`**
+- 伺服器端執行（第一次進入網站時）
+- 客戶端執行（在網站內部導航時）
 ```javascript
 // src/routes/blog/+page.js
 export async function load() {
@@ -314,7 +316,11 @@ export async function load() {
 ```svelte
 <!-- src/routes/blog/+page.svelte -->
 <script>
+  // Svelte 4
   export let data;
+
+  // Svelte 5
+  let { data } = $props()
 </script>
 
 <h1>部落格文章</h1>
@@ -334,6 +340,7 @@ export async function load() {
 import { error } from '@sveltejs/kit';
 
 export async function load({ cookies }) {
+  // 檢查用戶是否登入
   const sessionId = cookies.get('session');
   
   if (!sessionId) {
@@ -490,6 +497,15 @@ export const actions = {
 - 自動帶上身份驗證：用戶的 cookies 和登入狀態會自動傳遞
 - 相對路徑支援：可以使用 /api/todoList 而不需要完整 URL
 
+```
+傳統方式：
+前端專案 → HTTP 請求 → 後端專案
+(localhost:3000)      (localhost:8000)
+
+SvelteKit：
+同一個專案內的直接函數呼叫 ⚡
+```
+
 ### 建立 API 端點
 
 ```javascript
@@ -619,6 +635,19 @@ export const csr = true;       // 啟用客戶端渲染
 
 ### 4. Hooks
 
+門神功能：決定誰可以進入哪些頁面
+自動化工作：每個請求都自動執行一些檢查或處理
+錯誤處理：當出錯時優雅地處理
+安全防護：自動加上各種安全措施
+記錄追蹤：記錄用戶行為或系統狀況
+
+```
+src/
+├── hooks.server.js    # 只在「伺服器」執行的守衛
+├── hooks.client.js    # 只在「瀏覽器」執行的守衛  
+└── hooks.js          # 兩邊都執行的守衛
+```
+
 **src/hooks.server.js - 伺服器端 hooks**
 ```javascript
 export async function handle({ event, resolve }) {
@@ -634,23 +663,6 @@ export function handleError({ error, event }) {
   
   return {
     message: '發生內部錯誤'
-  };
-}
-```
-
-### 5. 服務端組件
-
-在 `+page.server.js` 中返回 Svelte 組件：
-```javascript
-// src/routes/dashboard/+page.server.js
-export async function load() {
-  const data = await getServerData();
-  
-  return {
-    serverRenderedComponent: {
-      component: './ServerComponent.svelte',
-      props: { data }
-    }
   };
 }
 ```
