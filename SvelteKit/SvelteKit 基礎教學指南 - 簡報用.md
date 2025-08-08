@@ -124,6 +124,7 @@ SvelteKit 使用**檔案式路由**，檔案結構直接對應 URL：
 ```
 src/routes/
 ├── +page.svelte           # / (首頁)
+├── +error.svelte
 ├── about/
 │   └── +page.svelte       # /about
 ├── blog/
@@ -132,7 +133,13 @@ src/routes/
 │       └── +page.svelte   # /blog/[動態參數]
 └── admin/
     └── users/
-        └── +page.svelte   # /admin/users
+        ├── +page.svelte   # /admin/users
+        ├── +page.js
+        ├── +page.server.js
+        ├── +layout.svelte
+        ├── +layout.js
+        └── +layout.server.js  
+
 ```
 
 ### 特殊檔案命名
